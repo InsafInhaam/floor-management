@@ -8,7 +8,7 @@ const RoomSelector = () => {
   const activeRoom = useSelector((state) => state.floor.activeRoom);
   const dispatch = useDispatch();
 
-  console.log(activeRoom)
+  console.log(activeRoom);
 
   useEffect(() => {
     dispatch(fetchRooms());
@@ -16,28 +16,28 @@ const RoomSelector = () => {
 
   useEffect(() => {
     const roomKeys = Object.keys(rooms);
-  
+
     if (roomKeys.length > 0 && !activeRoom) {
       const firstRoom = roomKeys[0];
       dispatch(setActiveRoom(firstRoom));
     }
-  }, [rooms, activeRoom, dispatch]);  
+  }, [rooms, activeRoom, dispatch]);
 
   const handleAddRoom = () => {
     const newRoomName = prompt("Enter a name for the new room:");
-    if(newRoomName && newRoomName.trim() !== ""){
+    if (newRoomName && newRoomName.trim() !== "") {
       dispatch(addRoom(newRoomName.trim()));
-    }else{
-      alert("Room name cannot be empty!")
+    } else {
+      alert("Room name cannot be empty!");
     }
-  }
+  };
 
-  console.log(rooms)
+  console.log(rooms);
 
   return (
     <div className="flex items-center justify-between w-full px-4 border-b">
       <div className="flex items-center space-x-6">
-      {Object.keys(rooms).map((room) => (
+        {Object.keys(rooms).map((room) => (
           <button
             key={room}
             onClick={() => dispatch(setActiveRoom(room))}

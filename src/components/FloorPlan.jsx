@@ -134,7 +134,7 @@ const FloorPlan = () => {
           onClick={() => dispatch(selectTable(table.id))}
           className="absolute table cursor-move"
         >
-          <div className="relative p-2 text-sm font-bold text-red-700 border border-red-200 border-dashed rounded-lg table-content"  style={{
+          <div className="relative p-2 text-sm font-bold text-red-700 border border-red-200 border-dashed rounded-lg table-content group"  style={{
             transform: `rotate(${table.rotation || 0}deg)`,
           }}>
             {table.type === "circle" ? (
@@ -156,7 +156,7 @@ const FloorPlan = () => {
             {/* Rotation Handle */}
             <div
               onMouseDown={(e) => handleRotateStart(e, table.id)}
-              className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 cursor-pointer"
+              className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 cursor-pointer hidden group-hover:block"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +168,7 @@ const FloorPlan = () => {
             </div>
 
             {/* Action Icons */}
-            <div className="absolute top-[-55px] left-1/2 transform -translate-x-1/2 flex bg-white shadow-md rounded">
+            <div className="absolute top-[-55px] left-1/2 transform -translate-x-1/2 flex bg-white shadow-md rounded hidden group-hover:flex">
               <button
                 onClick={() => handleToggleTableType(table)}
                 className="flex items-center justify-center rounded hover:bg-gray-100"
@@ -201,7 +201,7 @@ const FloorPlan = () => {
                       cy="19.1631"
                       r="7.25"
                       stroke="#292D32"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                     />
                   </svg>
                 )}
@@ -226,16 +226,16 @@ const FloorPlan = () => {
                   <path
                     d="M25.2103 19.7632V22.5632C25.2103 24.8966 24.277 25.8299 21.9436 25.8299H19.1436C16.8103 25.8299 15.877 24.8966 15.877 22.5632V19.7632C15.877 17.4299 16.8103 16.4966 19.1436 16.4966H21.9436C24.277 16.4966 25.2103 17.4299 25.2103 19.7632Z"
                     stroke="#292D32"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M29.2103 15.7632V18.5632C29.2103 20.8966 28.277 21.8299 25.9436 21.8299H25.2103V19.7632C25.2103 17.4299 24.277 16.4966 21.9436 16.4966H19.877V15.7632C19.877 13.4299 20.8103 12.4966 23.1436 12.4966H25.9436C28.277 12.4966 29.2103 13.4299 29.2103 15.7632Z"
                     stroke="#292D32"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               </button>
@@ -255,37 +255,37 @@ const FloorPlan = () => {
                   <path
                     d="M14.6338 4.14974C12.4138 3.92974 10.1805 3.81641 7.95379 3.81641C6.63379 3.81641 5.31379 3.88307 3.99379 4.01641L2.63379 4.14974"
                     stroke="#292D32"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M6.30078 3.47658L6.44745 2.60325C6.55411 1.96992 6.63411 1.49658 7.76078 1.49658H9.50745C10.6341 1.49658 10.7208 1.99658 10.8208 2.60992L10.9674 3.47658"
                     stroke="#292D32"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M13.2007 6.25635L12.7674 12.9697C12.6941 14.0163 12.6341 14.8297 10.774 14.8297H6.49405C4.63405 14.8297 4.57405 14.0163 4.50072 12.9697L4.06738 6.25635"
                     stroke="#292D32"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M7.52051 11.1631H9.74051"
                     stroke="#292D32"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M6.9668 8.49658H10.3001"
                     stroke="#292D32"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               </button>

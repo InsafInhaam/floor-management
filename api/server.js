@@ -2,43 +2,18 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const connectDB = require("./utils/db");
 const app = express();
+const Room = require("./models/Room"); // Import the Room model
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-// Connect to MongoDB (Ensure MongoDB is running locally or use a cloud database like MongoDB Atlas)
-mongoose.connect('mongodb+srv://insafinhaamtest:uaPL7D38rqZzvWnt@cluster0.qm20z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Failed to connect to MongoDB:", err));
+// Connect to MongoDB
+connectDB();
 
-// Models
-const tableSchema = new mongoose.Schema({
-  id: { type: String, required: true },
-  type: { type: String, required: true },
-  name: { type: String, required: true },
-  minCovers: { type: Number, required: true },
-  maxCovers: { type: Number, required: true },
-  online: { type: Boolean, required: true },
-  x: { type: Number, required: true },
-  y: { type: Number, required: true },
-  width: { type: Number, required: true },
-  height: { type: Number, required: true },
-  rotation: { type: Number, required: true }
-});
-
-const roomSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  tables: [tableSchema] // Array of table objects
-});
-
-const Room = mongoose.model('Room', roomSchema);
-
-// Routes
+// -------- Routes ---------- //
 
 // Get all rooms
 app.get('/api/rooms', async (req, res) => {
@@ -111,18 +86,27 @@ app.put("/api/rooms/:roomId/tables/:tableId", async (req, res) => {
   const { roomId, tableId } = req.params;
   const updates = req.body;
 
-  const room = await Room.findById(roomId);
-  if (room) {
-    const table = room.tables.find(t => t.id === tableId);
-    if (table) {
-      Object.assign(table, updates);
-      await room.save();
-      res.json(table);
-    } else {
-      res.status(404).send("Table not found");
+  if (!updates.name) {
+    updates.name = `Table-${tableId}`;
+  }
+
+  try {
+    const room = await Room.findById(roomId);
+    if (!room) {
+      return res.status(404).send("Room not found");
     }
-  } else {
-    res.status(404).send("Room not found");
+
+    const table = room.tables.find(t => t.id === tableId);
+    if (!table) {
+      return res.status(404).send("Table not found");
+    }
+
+    Object.assign(table, updates);
+    await room.save();
+    res.json(table);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
   }
 });
 
@@ -130,34 +114,75 @@ app.put("/api/rooms/:roomId/tables/:tableId", async (req, res) => {
 app.delete("/api/rooms/:roomId/tables/:tableId", async (req, res) => {
   const { roomId, tableId } = req.params;
 
-  const room = await Room.findById(roomId);
-  if (room) {
-    room.tables = room.tables.filter(t => t.id !== tableId);
-    await room.save();
-    res.json({ message: "Table deleted" });
-  } else {
-    res.status(404).send("Room not found");
+  try {
+    const room = await Room.findById(roomId);
+    if (room) {
+      room.tables = room.tables.filter(t => t.id !== tableId);
+
+      await room.save();
+      res.json({ message: "Table deleted" });
+    } else {
+      res.status(404).send("Room not found");
+    }
+  } catch (error) {
+    console.error("Error deleting table:", error);
+    res.status(500).send("Server error");
   }
 });
+
+// Update table position (x, y)
+// app.put("/api/rooms/:roomId/tables/:tableId/position", async (req, res) => {
+//   const { roomId, tableId } = req.params;
+//   const { x, y } = req.body;
+
+//   const room = await Room.findById(roomId);
+//   if (room) {
+//     const table = room.tables.find(t => t.id === tableId);
+//     if (table) {
+//       table.x = x;
+//       table.y = y;
+//       await room.save();
+//       res.json(table);
+//     } else {
+//       res.status(404).send("Table not found");
+//     }
+//   } else {
+//     res.status(404).send("Room not found");
+//   }
+// });
+
 
 // Update table position (x, y)
 app.put("/api/rooms/:roomId/tables/:tableId/position", async (req, res) => {
   const { roomId, tableId } = req.params;
   const { x, y } = req.body;
 
-  const room = await Room.findById(roomId);
-  if (room) {
-    const table = room.tables.find(t => t.id === tableId);
-    if (table) {
-      table.x = x;
-      table.y = y;
-      await room.save();
-      res.json(table);
-    } else {
-      res.status(404).send("Table not found");
+  // Validate if roomId is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(roomId)) {
+    return res.status(400).send("Invalid roomId format");
+  }
+
+  try {
+    const room = await Room.findById(roomId);
+    if (!room) {
+      return res.status(404).send("Room not found");
     }
-  } else {
-    res.status(404).send("Room not found");
+
+    const table = room.tables.find((t) => t.id === tableId);
+    if (!table) {
+      return res.status(404).send("Table not found");
+    }
+
+    // Update the table's position
+    table.x = x;
+    table.y = y;
+
+    await room.save();
+
+    res.json(table);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
   }
 });
 
@@ -173,7 +198,7 @@ app.put("/api/rooms/:roomId/tables/:tableId/size", async (req, res) => {
       table.width = width;
       table.height = height;
       await room.save();
-      res.json(table);
+      res.json(table);  // Respond with the updated table object
     } else {
       res.status(404).send("Table not found");
     }
@@ -193,7 +218,7 @@ app.put("/api/rooms/:roomId/tables/:tableId/rotation", async (req, res) => {
     if (table) {
       table.rotation = rotation;
       await room.save();
-      res.json(table);
+      res.json(table);  // Respond with the updated table object
     } else {
       res.status(404).send("Table not found");
     }
@@ -213,7 +238,7 @@ app.put("/api/rooms/:roomId/tables/:tableId/type", async (req, res) => {
     if (table) {
       table.type = type;
       await room.save();
-      res.json(table);
+      res.json(table);  // Respond with the updated table object
     } else {
       res.status(404).send("Table not found");
     }

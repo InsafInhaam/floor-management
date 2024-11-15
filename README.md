@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+# Restaurant Floor Plan Management Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This web application allows restaurant managers to create custom seating arrangements with a drag-and-drop interface. Users can select, resize, rotate, duplicate, and delete tables (both circular and square) on a customizable restaurant floor plan. It’s designed for flexibility and precision in floor plan management.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+  - [Frontend Setup](#frontend-setup)
+  - [Backend Setup](#backend-setup)
+- [Drag-and-Drop Mechanism](#drag-and-drop-mechanism)
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Drag-and-Drop**: Easily place tables on a virtual floor.
+- **Rotation**: Rotate tables to customize the layout.
+- **Resize**: Adjust the size of tables as needed.
+- **Duplicate and Delete**: Create duplicates or remove tables.
+- **Customizable Floor Plan**: Design the floor layout for any restaurant space.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Technologies Used
 
-### `npm run build`
+- **React**: Frontend framework for building user interfaces.
+- **Redux**: Manages application state and facilitates table data management.
+- **React DnD**: Handles drag-and-drop functionality within React components.
+- **React RND**: Enables resizable and draggable functionality on tables.
+- **Tailwind CSS**: Provides styling for a responsive and modern UI.
+- **Axios**: Handles HTTP requests for backend communication.
+- **SVG Icons & React Icons**: Used for icons throughout the application, such as action buttons.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Getting Started
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+To get the application running on your local machine, follow these steps.
 
-### `npm run eject`
+### Frontend Setup
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Navigate to the project root directory.
+2. Run the following commands to install dependencies and start the frontend:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```bash
+   npm install
+   npm start
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Backend Setup
+1. Navigate to the api directory:
 
-## Learn More
+   ```bash
+   cd api
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. Install dependencies and start the backend server:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   ```bash
+   npm install
+   npm start
 
-### Code Splitting
+The backend server should now be running on http://localhost:8080.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Drag-and-Drop Mechanism
+The application utilizes React DnD and React RND for its drag-and-drop and resizing functionality. Here’s a breakdown of the drag-and-drop mechanism:
 
-### Making a Progressive Web App
+1. Initial Placement: Users drag tables onto the floor plan using React DnD.
+Position Calculation: Table coordinates are calculated through monitor.getClientOffset() in React DnD, ensuring accurate placement within the floor bounds.
+2. Resizing: The React RND library is used to allow tables to be resized directly within the floor plan.
+3. Rotation: Custom code calculates table rotation by tracking the mouse position relative to the table center.
+4. State Management: All table data (position, size, rotation) is stored in a Redux store, allowing precise control over re-rendering and table selection.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Justification: This approach, combining React DnD and React RND, provides flexibility, ease of implementation, and reliability for handling complex drag, drop, and resize events. It allows users to create an accurate restaurant floor layout quickly.

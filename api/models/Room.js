@@ -1,22 +1,24 @@
 const mongoose = require("mongoose");
 
-const TableSchema = new mongoose.Schema({
-  id: String,
-  type: String,
-  name: String,
-  minCovers: Number,
-  maxCovers: Number,
-  online: Boolean,
-  x: Number,
-  y: Number,
-  width: Number,
-  height: Number,
-  rotation: { type: Number, default: 0 },
+// Table schema
+const tableSchema = new mongoose.Schema({
+  id: { type: String, required: true },
+  type: { type: String, required: true },
+  name: { type: String, required: true },
+  minCovers: { type: Number, required: true },
+  maxCovers: { type: Number, required: true },
+  online: { type: Boolean, required: true },
+  x: { type: Number, required: true },
+  y: { type: Number, required: true },
+  width: { type: Number, required: true },
+  height: { type: Number, required: true },
+  rotation: { type: Number, required: true }
 });
 
-const RoomSchema = new mongoose.Schema({
-  name: String,
-  tables: [TableSchema],
+// Room schema
+const roomSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  tables: [tableSchema] // Array of table objects
 });
 
-module.exports = mongoose.model("Room", RoomSchema);
+module.exports = mongoose.model('Room', roomSchema);

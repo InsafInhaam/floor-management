@@ -1,4 +1,3 @@
-// api.js
 import axios from "axios";
 
 const API_URL = "http://localhost:8080/api";
@@ -37,60 +36,87 @@ export const addTableToRoom = async (roomId, tableData) => {
     if (error.response) {
       console.error("Error adding table:", error.response.data);
     } else if (error.request) {
-      console.error("Error adding table: No response from server", error.request);
+      console.error(
+        "Error adding table: No response from server",
+        error.request
+      );
     } else {
       console.error("Error adding table:", error.message);
     }
   }
 };
 
-export const updateTableAPI = async (roomId, tableId, updates) => {
-  const response = await axios.put(
-    `${API_URL}/rooms/${roomId}/tables/${tableId}`,
-    updates
-  );
-  return response.data;
+export const updateTableAPI = async (roomId, tableId, changes) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/rooms/${roomId}/tables/${tableId}`,
+      changes
+    );
+    console.log("Table updated successfully", response.data);
+  } catch (error) {
+    console.error("Error updating table:", error);
+  }
 };
 
 export const deleteTableAPI = async (roomId, tableId) => {
-  const response = await axios.delete(
-    `${API_URL}/rooms/${roomId}/tables/${tableId}`
-  );
-  return response.data;
+  try {
+    const response = await axios.delete(
+      `${API_URL}/rooms/${roomId}/tables/${tableId}`
+    );
+    console.log("Table deleted successfully:", response.data);
+  } catch (error) {
+    console.error("Error deleting table:", error);
+  }
 };
 
 export const updateTablePositionAPI = async (roomId, tableId, { x, y }) => {
-  const response = await axios.put(
-    `${API_URL}/rooms/${roomId}/tables/${tableId}/position`,
-    { x, y }
-  );
-  return response.data;
+  try {
+    const response = await axios.put(
+      `${API_URL}/rooms/${roomId}/tables/${tableId}/position`,
+      {
+        x,
+        y,
+      }
+    );
+    console.log("Table position updated successfully:", response.data);
+  } catch (error) {
+    console.error("Error updating table position:", error);
+  }
 };
 
-export const updateTableSizeAPI = async (
-  roomId,
-  tableId,
-  { width, height }
-) => {
-  const response = await axios.put(
-    `${API_URL}/rooms/${roomId}/tables/${tableId}/size`,
-    { width, height }
-  );
-  return response.data;
+export const updateTableSizeAPI = async (roomId, tableId, width, height) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/rooms/${roomId}/tables/${tableId}/size`,
+      { width, height }
+    );
+    console.log("Table size updated successfully:", response.data);
+  } catch (error) {
+    console.error("Error updating table size:", error);
+  }
 };
 
-export const updateTableRotationAPI = async (roomId, tableId, { rotation }) => {
-  const response = await axios.put(
-    `${API_URL}/rooms/${roomId}/tables/${tableId}/rotation`,
-    { rotation }
-  );
-  return response.data;
+export const updateTableRotationAPI = async (roomId, tableId, rotation) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/rooms/${roomId}/tables/${tableId}/rotation`,
+      { rotation }
+    );
+    console.log("Table rotation updated successfully:", response.data);
+  } catch (error) {
+    console.error("Error updating table rotation:", error);
+  }
 };
 
-export const updateTableTypeAPI = async (roomId, tableId, { type }) => {
-  const response = await axios.put(
-    `${API_URL}/rooms/${roomId}/tables/${tableId}/type`,
-    { type }
-  );
-  return response.data;
+export const updateTableTypeAPI = async (roomId, tableId, type) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/rooms/${roomId}/tables/${tableId}/type`,
+      { type }
+    );
+    console.log("Table type updated successfully:", response.data);
+  } catch (error) {
+    console.error("Error updating table type:", error);
+  }
 };
+

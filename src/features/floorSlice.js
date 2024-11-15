@@ -1,5 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { addTableToRoom, createRoom, getRooms } from "./api";
+import {
+  addTableToRoom,
+  createRoom,
+  deleteTableAPI,
+  updateTableAPI,
+  updateTablePositionAPI,
+  updateTableRotationAPI,
+  updateTableSizeAPI,
+  updateTableTypeAPI,
+} from "./api";
 
 export const fetchRooms = createAsyncThunk("rooms/fetchRooms", async () => {
   const response = await fetch("http://localhost:8080/api/rooms");
@@ -38,7 +47,7 @@ const floorSlice = createSlice({
       if (activeRoom) {
         const table = {
           ...action.payload,
-          rotation: action.payload.rotation || 0, // Default to 0 if rotation is missing
+          rotation: action.payload.rotation || 0,
         };
 
         activeRoom.tables.push(action.payload);
@@ -47,7 +56,6 @@ const floorSlice = createSlice({
         console.log("Table data with rotation");
         console.log(table);
 
-        // Send the table data with the rotation value to the backend
         addTableToRoom(roomId, table);
       }
     },
@@ -66,6 +74,8 @@ const floorSlice = createSlice({
       const table = activeRoom?.tables.find((t) => t.id === id);
       if (table) {
         Object.assign(table, changes);
+
+        updateTableAPI(activeRoom._id, id, changes);
       }
     },
     deleteTable: (state, action) => {
@@ -74,6 +84,10 @@ const floorSlice = createSlice({
         activeRoom.tables = activeRoom.tables.filter(
           (t) => t.id !== action.payload
         );
+
+        const roomId = activeRoom._id;
+
+        deleteTableAPI(roomId, action.payload);
       }
     },
     updateTablePosition: (state, action) => {
@@ -81,9 +95,12 @@ const floorSlice = createSlice({
       const activeRoom = state.rooms[state.activeRoom];
 
       const table = activeRoom?.tables.find((t) => t.id === id);
+      console.log(activeRoom._id, id, x, y);
       if (table) {
         table.x = x;
         table.y = y;
+
+        updateTablePositionAPI(activeRoom._id, id, { x, y });
       }
     },
     updateTableSize: (state, action) => {
@@ -94,6 +111,10 @@ const floorSlice = createSlice({
       if (table) {
         table.width = width;
         table.height = height;
+
+        const roomId = activeRoom._id;
+
+        updateTableSizeAPI(roomId, id, width, height);
       }
     },
     updateTableRotation: (state, action) => {
@@ -102,6 +123,10 @@ const floorSlice = createSlice({
       const table = activeRoom?.tables.find((t) => t.id === id);
       if (table) {
         table.rotation = rotation;
+
+        const roomId = activeRoom._id;
+
+        updateTableRotationAPI(roomId, id, rotation);
       }
     },
     updateTableType: (state, action) => {
@@ -111,12 +136,15 @@ const floorSlice = createSlice({
 
       if (table) {
         table.type = type;
+
+        const roomId = activeRoom._id;
+        updateTableTypeAPI(roomId, id, type);
       }
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchRooms.fulfilled, (state, action) => {
-      const roomsArray = action.payload; // Assuming API returns an array
+      const roomsArray = action.payload;
       const roomsObject = {};
 
       roomsArray.forEach((room) => {

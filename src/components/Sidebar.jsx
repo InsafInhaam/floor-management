@@ -323,7 +323,6 @@ const Sidebar = () => {
           <span>{totalTables} Tables</span>
         </div>
         <div className="flex items-center px-2 space-x-2">
-          {/* <img src={VectorSvg} alt="Main Covers Icon" className="w-5 h-5" /> */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 640 512"
