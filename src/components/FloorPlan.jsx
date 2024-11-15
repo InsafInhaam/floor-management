@@ -134,7 +134,7 @@ const FloorPlan = () => {
           onClick={() => dispatch(selectTable(table.id))}
           className="absolute table cursor-move"
         >
-          <div className="relative p-2 text-sm font-bold text-red-700 border border-red-200 border-dashed rounded-lg table-content group"  style={{
+          <div className="relative p-2 text-sm font-bold text-red-700 border border-red-200 border-dashed rounded-lg table-content"  style={{
             transform: `rotate(${table.rotation || 0}deg)`,
           }}>
             {table.type === "circle" ? (
@@ -156,7 +156,7 @@ const FloorPlan = () => {
             {/* Rotation Handle */}
             <div
               onMouseDown={(e) => handleRotateStart(e, table.id)}
-              className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 cursor-pointer hidden group-hover:block"
+              className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +168,7 @@ const FloorPlan = () => {
             </div>
 
             {/* Action Icons */}
-            <div className="absolute top-[-55px] left-1/2 transform -translate-x-1/2 flex bg-white shadow-md rounded hidden group-hover:flex">
+            <div className="absolute top-[-55px] left-1/2 transform -translate-x-1/2 flex bg-white shadow-md rounded">
               <button
                 onClick={() => handleToggleTableType(table)}
                 className="flex items-center justify-center rounded hover:bg-gray-100"
