@@ -26,7 +26,7 @@ const FloorPlan = () => {
   };
 
   // resize table
-  const handleResizeStop = (id, ref) => {
+  const handleResizeStop = (id, e, direction, ref, d) => {
     dispatch(
       updateTableSize({
         id,
@@ -75,7 +75,7 @@ const FloorPlan = () => {
   };
   // rotate table end
 
-  // duplicate the table 
+  // duplicate the table
   const handleDuplicate = (table) => {
     const newTable = {
       ...table,
@@ -86,7 +86,7 @@ const FloorPlan = () => {
     dispatch(addTable(newTable));
   };
 
-  // delete table 
+  // delete table
   const handleDelete = (id) => {
     dispatch(deleteTable(id));
   };
@@ -127,28 +127,41 @@ const FloorPlan = () => {
           size={{ width: table.width, height: table.height }}
           position={{ x: table.x, y: table.y }}
           onDragStop={(e, d) => handleDragStop(table.id, d)}
+          enableResizing={{
+            top: true,
+            right: true,
+            bottom: true,
+            left: true,
+            topRight: true,
+            bottomRight: true,
+            bottomLeft: true,
+            topLeft: true,
+          }}
           onResizeStop={(e, direction, ref, delta, position) =>
-            handleResizeStop(table.id, ref)
+            handleResizeStop(table.id, e, direction, ref, delta)
           }
           bounds="parent"
           onClick={() => dispatch(selectTable(table.id))}
-          className="absolute table cursor-move"
         >
-          <div className="relative p-2 text-sm font-bold text-red-700 border border-red-200 border-dashed rounded-lg table-content"  style={{
-            transform: `rotate(${table.rotation || 0}deg)`,
-          }}>
+          <div
+            className="flex items-center justify-center w-full h-full p-2 text-sm font-bold text-red-700 border border-red-200 border-dashed rounded-lg cursor-move"
+            style={{
+              transform: `rotate(${table.rotation || 0}deg)`,
+              transformOrigin: "center center", // Ensures the rotation happens around the center
+            }}
+          >
             {table.type === "circle" ? (
               <img
                 src={circleTableSvg}
                 alt="Circle Table"
-                style={{ width: "100%", height: "100%" }}
+                // style={{ width: "100%", height: "100%" }}
                 draggable="false"
               />
             ) : (
               <img
                 src={squareTableSvg}
                 alt="Square Table"
-                style={{ width: "100%", height: "100%" }}
+                // style={{ width: "100%", height: "100%" }}
                 draggable="false"
               />
             )}

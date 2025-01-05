@@ -24,9 +24,14 @@ const Sidebar = () => {
     minCovers: 1,
     maxCovers: 1,
     online: false,
+    x: 0,
+    y: 0,
+    rotation: 0,
   });
 
   const [advancedSettings, setAdvancedSettings] = useState(false);
+
+  // console.log(selectedTable);
 
   useEffect(() => {
     if (selectedTable) {
@@ -35,6 +40,9 @@ const Sidebar = () => {
         minCovers: selectedTable.minCovers,
         maxCovers: selectedTable.maxCovers,
         online: selectedTable.online,
+        x: selectedTable.x,
+        y: selectedTable.y,
+        rotation: selectedTable.rotation,
       });
     }
   }, [selectedTable]);
@@ -47,8 +55,14 @@ const Sidebar = () => {
           changes: tableDetails,
         })
       );
+
+      // console.log("adavce test");
+      // console.log(selectedTable);
+      // console.log("end adavce test");
     }
   }, [tableDetails, selectedTable, dispatch]);
+
+
 
   // Handle adding a new table
   const handleAddTable = (shape) => {
@@ -78,10 +92,34 @@ const Sidebar = () => {
     }));
   };
 
+  const handleAdvanceChanges = () => {
+    const { x, y, rotation } = tableDetails;
+
+    console.log(selectedTable)
+
+    if (x && y && rotation) {
+      // updateAdvanceSettings({x, y, rotation})
+      dispatch(
+        updateTable({
+          id: selectedTable.id,
+          changes: tableDetails,
+        })
+      );
+    }
+
+    // console.log({x, y, rotation})
+  };
+
   // total dispay
   const totalTables = tables.length;
-  const totalMainCovers = tables.reduce((sum, table) => sum + (table.minCovers || 0),0);
-  const totalMaxCoveers = tables.reduce((sum, table) => sum + (table.maxCovers || 0), 0);
+  const totalMainCovers = tables.reduce(
+    (sum, table) => sum + (table.minCovers || 0),
+    0
+  );
+  const totalMaxCoveers = tables.reduce(
+    (sum, table) => sum + (table.maxCovers || 0),
+    0
+  );
   const totalOnlineCapacity = tables.filter((tables) => tables.online).length;
 
   return (
@@ -293,14 +331,62 @@ const Sidebar = () => {
                 <div className="p-4 space-y-4">
                   <div>
                     <label className="block text-sm text-gray-700">
-                      Placeholder Field 1
+                      X-axix
                     </label>
                     <input
                       type="text"
                       className="w-full p-2 mt-1 border rounded-md"
                       placeholder="Enter value for field 1"
+                      value={tableDetails.x}
+                      onChange={(e) =>
+                        setTableDetails((prev) => ({
+                          ...prev,
+                          x: e.target.x,
+                        }))
+                      }
                     />
                   </div>
+                  <div>
+                    <label className="block text-sm text-gray-700">
+                      Y-axix
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full p-2 mt-1 border rounded-md"
+                      placeholder="Enter value for field 1"
+                      value={tableDetails.y}
+                      onChange={(e) =>
+                        setTableDetails((prev) => ({
+                          ...prev,
+                          y: e.target.y,
+                        }))
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-700">
+                      Rotation
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full p-2 mt-1 border rounded-md"
+                      placeholder="Enter value for field 1"
+                      value={tableDetails.rotation}
+                      onChange={(e) =>
+                        setTableDetails((prev) => ({
+                          ...prev,
+                          rotation: e.target.rotation,
+                        }))
+                      }
+                    />
+                  </div>
+
+                  <button
+                    className="flex items-center bg-gradient-to-r from-red-600 to-black text-white px-3 py-1.5 rounded-md text-sm font-semibold shadow-sm hover:opacity-90"
+                    onClick={handleAdvanceChanges}
+                  >
+                    Update Table
+                  </button>
                 </div>
               )}
 

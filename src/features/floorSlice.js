@@ -141,6 +141,18 @@ const floorSlice = createSlice({
         updateTableTypeAPI(roomId, id, type);
       }
     },
+
+    // updateAdvanceSettings: (state, action) => {
+    //   const { id, x, y, rotation } = action.payload;
+    //   const activeRoom = state.rooms[state.activeRoom];
+
+    //   const table = activeRoom?.tables.find((t) => t.id === id);
+    //   if (table) {
+    //     Object.assign(table, x, y, rotation);
+
+    //     updateTableAPI(activeRoom._id, id, changes);
+    //   }
+    // },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchRooms.fulfilled, (state, action) => {
@@ -167,6 +179,7 @@ export const {
   updateTableRotation,
   deleteTable,
   updateTableType,
+  // updateAdvanceSettings
 } = floorSlice.actions;
 
 export default floorSlice.reducer;
