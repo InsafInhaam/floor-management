@@ -75,3 +75,9 @@ Position Calculation: Table coordinates are calculated through monitor.getClient
 4. State Management: All table data (position, size, rotation) is stored in a Redux store, allowing precise control over re-rendering and table selection.
 
 Justification: This approach, combining React DnD and React RND, provides flexibility, ease of implementation, and reliability for handling complex drag, drop, and resize events. It allows users to create an accurate restaurant floor layout quickly.
+
+![Screenshot 2024-11-14 at 19 40 57](https://github.com/user-attachments/assets/054ec10b-99cc-46fc-9dfc-18defe0ec374)
+
+<img width="289" alt="Screenshot 2024-11-12 at 17 35 25" src="https://github.com/user-attachments/assets/ead39d74-fbd4-4092-a52f-b6f5d5c9c774" />
+
+
